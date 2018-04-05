@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block titile %}
+    文章列表
+{% endblock titile %}
+
+{% block content %}
+    {% for article in articles %}
+        <article>
+            <h2>
+                <a href="{% url 'blog:article' article.id %}" target="_blank">{{ article.title }}</a>
+            </h2>
+{#            <p class="pull-right">#}
+{#                <i class="far fa-bookmark"></i>#}
+{#                <span class="label label-default">#}
+{#                    {{ article.category }}#}
+{#                </span>#}
+{#            </p>#}
+            <ul class="list-inline">
+                <li>
+                    <i class="far fa-user"></i>
+                    <a href="#">{{ article.author }}</a>
+                </li>
+                <li>
+                    <span class="glyphicon glyphicon-time"></span>
+                    发布于{{ article.pub_date }}
+                </li>
+                <li>
+                    <i class="far fa-comment"></i>
+                    <a href="{% url 'blog:article' article.id %}#comments">评论()</a>
+
+                </li>
+                <li>
+                    <i class="fas fa-eye"></i>阅读
+{#                    ({{ article.get_read_num }})#}
+                </li>
+
+            </ul>
+        </article>
+        <hr>
+    {% endfor %}
+{% endblock content %}

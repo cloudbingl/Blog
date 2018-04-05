@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>
+        主页
+    </title>
+    {% include 'tags/css_cdn.html' %}
+</head>
+<body>
+{% include 'header.html' %}
+<div class="jumbotron">
+    <div class="container">
+        <h1>Hello, Python!</h1>
+        <p>All things in their being are good for something!</p>
+        <p><a class="btn btn-primary btn-lg" href="{% url 'blog:articles' %}"
+              role="button">Let's go !
+            &raquo;</a></p>
+    </div>
+</div>
+<div id="msg_alert">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-# alert-dismissable"
+                 role="alert">
+                <button type="button" class="close"
+                        data-dismiss="alert"
+                        aria-label="true">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>Message:</strong>{{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="container">
+    <div id="container" style="width: 600px;height:400px;margin: 0 auto"></div>
+</div>
+
+{% include 'tags/js_cdn.html' %}
+<script src="{% static 'js/hcharts_conf.js' %}"></script>
+<script src="{% static 'js/blog.js' %}"></script>
+</body>
+</html>
