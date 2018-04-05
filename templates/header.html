@@ -10,7 +10,8 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="/" class="navbar-brand">
-                <i class="fas fa-bold"></i>
+{#                <i class="fas fa-bold"></i>#}
+                首页
             </a>
         </div>
 
@@ -45,13 +46,7 @@
                     <li>
                         <a href="#"
                            title="{{ request.user }}">
-                            Home
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="far fa-bell"></i>
-                            <span class="badge"></span>
+                            欢迎回来,{{ request.user }}
                         </a>
                     </li>
                     <li>
@@ -74,15 +69,8 @@
             <ul class="nav navbar-nav navbar-right visible-xs">
                 {% if request.user.is_authenticated %}
                     <li>
-                        <a href="#"
-                           title="{{ request.user }}">
-
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="far fa-bell"></i>
-                            <span class="badge">2</span>
+                        <a href="#" title="{{ request.user }}">
+                            欢迎回来,{{ request.user }}
                         </a>
                     </li>
                     <li>
