@@ -18,6 +18,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('', include('blog.urls')),
+    path('user/', include('user.urls')),
     path('admin/', admin.site.urls),
     path('cheditor', include('ckeditor_uploader.urls')),
 ]

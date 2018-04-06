@@ -13,8 +13,7 @@
 {% include 'header.html' %}
 <div class="jumbotron">
     <div class="container">
-        <h1>Hello, Python!</h1>
-        <p>All things in their being are good for something!</p>
+        {% include 'tags/jumbotron.html' %}
         <p><a class="btn btn-primary btn-lg" href="{% url 'blog:articles' %}"
               role="button">Let's go !
             &raquo;</a></p>

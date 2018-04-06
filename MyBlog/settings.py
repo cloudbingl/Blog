@@ -131,7 +131,8 @@ STATICFILES_DIRS = (
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-LOGIN_URL = '/user/login/'
+# 登录页面
+LOGIN_URL = '/admin/login'
 
 # CKEditor
 CKEDITOR_UPLOAD_PATH = 'upload'
