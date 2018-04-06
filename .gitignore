@@ -29,6 +29,5 @@ venv.bak/
 .mypy_cache/
 
 # my
-*.sqlite3
 .idea/
 *.pyc
