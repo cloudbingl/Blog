@@ -1,15 +1,24 @@
 from django.shortcuts import render
 
 from .models import Articles
-# Create your views here.
+from .models import Category
+
+
 def index(request):
     return render(request, 'index.html')
 
 
 def articles(request):
     context = {}
-    articles = Articles.objects.filter(pub_status=True).order_by('-pub_date')
+    cates = Category.objects.all()
+    cate = request.GET.get('cate', '')
+    print(cate)
+    if cate:
+        articles = Articles.objects.filter(pub_status=True, cate=cate).order_by('-pub_date')
+    else:
+        articles = Articles.objects.filter(pub_status=True).order_by('-pub_date')
     context['articles'] = articles
+    context['category'] = cates
     return render(request, 'blog/articles.html', context)
 
 def article_detail(request, pk):

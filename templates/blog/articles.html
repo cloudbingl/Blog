@@ -5,21 +5,24 @@
 {% endblock titile %}
 
 {% block content %}
+    {% include 'tags/cate_filter.html' %}
+
     {% for article in articles %}
         <article>
             <h2>
-                <a href="{% url 'blog:article' article.id %}" target="_blank">{{ article.title }}</a>
+                <a href="{% url 'blog:article' article.id %}"
+                   target="_blank">{{ article.title }}</a>
             </h2>
-{#            <p class="pull-right">#}
-{#                <i class="far fa-bookmark"></i>#}
-{#                <span class="label label-default">#}
-{#                    {{ article.category }}#}
-{#                </span>#}
-{#            </p>#}
             <ul class="list-inline">
                 <li>
                     <i class="far fa-user"></i>
-                    <a href="#">{{ article.author.first_name }}</a>
+                    <a href="#">
+                        {% if article.author.first_name %}
+                            {{ article.author.first_name }}
+                        {% else %}
+                            匿名
+                        {% endif %}
+                    </a>
                 </li>
                 <li>
                     <span class="glyphicon glyphicon-time"></span>
@@ -32,7 +35,10 @@
                 </li>
                 <li>
                     <i class="fas fa-eye"></i>阅读
-{#                    ({{ article.get_read_num }})#}
+                    {#                    ({{ article.get_read_num }})#}
+                </li>
+                <li>
+                    <a href="{% url 'blog:articles' %}?cate={{ articles.cate.id }}">{{ article.cate }}</a>
                 </li>
 
             </ul>

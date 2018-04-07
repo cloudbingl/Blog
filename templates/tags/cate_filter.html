@@ -1,0 +1,9 @@
+<div>
+    {% if category %}
+        {% for cate in category %}
+            <span>
+            <a href="{% url 'blog:articles' %}?cate={{ cate.id }}" type="button" class="btn btn-default">{{ cate }}</a>
+            </span>
+        {% endfor %}
+    {% endif %}
+</div>

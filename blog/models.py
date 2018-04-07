@@ -4,8 +4,20 @@ from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
 
 
-# Create your models here.
+class Category(models.Model):
+    """类目模型"""
+    name = models.CharField(max_length=32, verbose_name="分类")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "分类"
+        verbose_name_plural = verbose_name
+
+
 class Articles(models.Model):
+    """文章模型"""
     title = models.CharField(max_length=128, verbose_name="文章标题")
     detail = RichTextUploadingField(verbose_name="文章内容")
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING,
@@ -14,6 +26,7 @@ class Articles(models.Model):
     modify_date = models.DateTimeField(auto_now=True, verbose_name="最后修改时间")
     pub_status = models.BooleanField(default=True, verbose_name="发布状态")
     is_delete = models.BooleanField(default=False, verbose_name="是否删除")
+    cate = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.title
