@@ -10,8 +10,7 @@
     {% for article in articles %}
         <article>
             <h2>
-                <a href="{% url 'blog:article' article.id %}"
-                   target="_blank">{{ article.title }}</a>
+                <a href="{% url 'blog:article' article.id %}" target="_blank">{{ article.title }}</a>
             </h2>
             <ul class="list-inline">
                 <li>
@@ -30,15 +29,15 @@
                 </li>
                 <li>
                     <i class="far fa-comment"></i>
-                    <a href="{% url 'blog:article' article.id %}#comments">评论()</a>
+                    评论()
 
                 </li>
                 <li>
                     <i class="fas fa-eye"></i>阅读
-                    {#                    ({{ article.get_read_num }})#}
+                    ({{ article.get_read_num }})
                 </li>
                 <li>
-                    <a href="{% url 'blog:articles' %}?cate={{ articles.cate.id }}">{{ article.cate }}</a>
+                    <a href="{% url 'blog:articles'%}?cate={{ article.cate.id }}">{{ article.cate }}</a>
                 </li>
 
             </ul>

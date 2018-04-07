@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block titile %}
+    {{ article.title }}
+{% endblock titile %}
+
+{% block content %}
+    <div>
+        标题：{{ status  }}-{{ article.title }}
+    </div>
+
+    <div>
+        作者：{{ article.author }}
+    </div>
+
+    <div>
+        {{ article.detail|safe }}
+    </div>
+
+{% endblock content %}
