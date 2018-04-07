@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
@@ -25,8 +24,7 @@ SECRET_KEY = '9_n=3gdccdqwz=ec&u8+2)x7m2+8al)r_*9x(4jhwrm_69&8j6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['cloudbing.pythonanywhere.com','*']
-
+ALLOWED_HOSTS = ['cloudbing.pythonanywhere.com', '*']
 
 # Application definition
 
@@ -74,17 +72,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'MyBlog.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'sqlite3': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+    # 配置MySql数据库
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'blog',
+        'USER': 'root',
+        'PASSWORD': 'adminroot',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -104,7 +109,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -118,13 +122,12 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
@@ -135,6 +138,29 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # 登录页面
 LOGIN_URL = '/admin/login'
+
+# Caches
+CACHES = {
+    ## Redis Caches
+    ## pip install django-redis-cache
+    # 'Redis': {
+    #     'BACKEND': 'redis_cache.cache.RedisCache',
+    #     'LOCATION': '',
+    #     'TIMEOUT': '',
+    # },
+
+    # 文件缓存
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+
+        # Linux System
+        # 'LOCATION': '/var/tmp/django_cache',
+
+        # Windows System
+        'LOCATION': 'os.path.join(BASE_DIR, "cache")',
+        # 'LOCATION': 'd:/django/cache',
+    }
+}
 
 # CKEditor
 CKEDITOR_UPLOAD_PATH = 'upload'
@@ -148,35 +174,44 @@ CKEDITOR_CONFIGS = {
         ],
         'toolbar_YourCustomToolbarConfig': [
 
-            {'name': 'clipboard', 'items': ['PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+            {'name': 'clipboard',
+             'items': ['PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
             {'name': 'editing', 'items': ['Find', 'Replace']},
             {'name': 'forms',
-             'items': ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
+             'items': ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea',
+                       'Select', 'Button', 'ImageButton',
                        'HiddenField']},
             '/',
             {'name': 'basicstyles',
-             'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+             'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript',
+                       'Superscript', '-', 'RemoveFormat']},
             {'name': 'paragraph',
-             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-',
-                       'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-']},
+             'items': ['NumberedList', 'BulletedList', '-', 'Outdent',
+                       'Indent', '-', 'Blockquote', 'CreateDiv', '-',
+                       'JustifyLeft', 'JustifyCenter', 'JustifyRight',
+                       'JustifyBlock', '-']},
             {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
             {'name': 'insert',
-             'items': ['Image','Table', 'HorizontalRule', 'Smiley', 'SpecialChar']},
-            {'name': 'document', 'items': ['Source', '-', 'Preview', '-', 'Templates']},
+             'items': ['Image', 'Table', 'HorizontalRule', 'Smiley',
+                       'SpecialChar']},
+            {'name': 'document',
+             'items': ['Source', '-', 'Preview', '-', 'Templates']},
             {'name': 'tools', 'items': ['Maximize', 'ShowBlocks']},
             {'name': 'about', 'items': ['About']},
             '/',
-            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+            {'name': 'styles',
+             'items': ['Styles', 'Format', 'Font', 'FontSize']},
             {'name': 'colors', 'items': ['TextColor', 'BGColor']},
 
             '/',  # put this to force next toolbar on new line
-            #{'name': 'yourcustomtools', 'items': [
+            # {'name': 'yourcustomtools', 'items': [
             #   # put the name of your editor.ui.addButton here
             #   'Preview',
             #   'Maximize',
-            #]},
+            # ]},
         ],
-        'toolbar': 'YourCustomToolbarConfig',  # put selected toolbar config here
+        'toolbar': 'YourCustomToolbarConfig',
+        # put selected toolbar config here
         # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
         'height': 291,
         'width': '100%',
@@ -186,7 +221,7 @@ CKEDITOR_CONFIGS = {
         # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
         'tabSpaces': 4,
         'extraPlugins': ','.join([
-            'uploadimage', # the upload image feature
+            'uploadimage',  # the upload image feature
             # your extra plugins here
             'div',
             'autolink',

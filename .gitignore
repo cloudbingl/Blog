@@ -30,4 +30,5 @@ venv.bak/
 
 # my
 .idea/
+db.sqlite3
 *.pyc
