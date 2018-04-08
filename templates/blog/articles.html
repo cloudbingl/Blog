@@ -6,19 +6,6 @@
 
 {% block content %}
     {% include 'tags/cate_filter.html' %}
-    <div>
-        aaa
-        {% for data in seven_days_hot %}
-            <p>
-                {{ data }}
-            </p>
-
-        {% endfor %}
-        aaa
-    </div>
-
-
-
 
     <hr>
 
@@ -53,6 +40,7 @@
                     ({{ article.get_read_num }})
                 </li>
                 <li>
+                    <span class="glyphicon glyphicon-paperclip"></span>
                     <a href="{% url 'blog:articles' %}?cate={{ article.cate.id }}">{{ article.cate }}</a>
                 </li>
 
@@ -61,3 +49,7 @@
         <hr>
     {% endfor %}
 {% endblock content %}
+
+{% block right_menu %}
+    {% include 'tags/hot_articles.html' %}
+{% endblock right_menu %}

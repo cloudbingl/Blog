@@ -24,7 +24,7 @@ SECRET_KEY = '9_n=3gdccdqwz=ec&u8+2)x7m2+8al)r_*9x(4jhwrm_69&8j6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['cloudbing.pythonanywhere.com', '*']
+ALLOWED_HOSTS = []
 
 # Application definition
 

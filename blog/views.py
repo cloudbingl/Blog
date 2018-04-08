@@ -17,16 +17,19 @@ def articles(request):
     """文章列表"""
     context = {}
     cates = Category.objects.all()
-    cate = request.GET.get('cate', None)
-    if cate is not None:
-        articles = Articles.objects.filter(pub_status=True,cate=cate)\
-                                   .order_by('-pub_date')
+    cate = request.GET.get('cate', '')
+    if cate.isdecimal() and int(cate) > 0:
+        articles = Articles.objects.filter(pub_status=True, cate=cate) \
+            .order_by('-pub_date')
+        context['current_cate'] = int(cate)
     else:
-        articles = Articles.objects.filter(pub_status=True)\
-                                   .order_by('-pub_date')
+        articles = Articles.objects.filter(pub_status=True) \
+            .order_by('-pub_date')
+        context['current_cate'] = 0
     context['articles'] = articles
     context['seven_days_hot'] = Articles.get_seven_days_hot()
-    print(context['seven_days_hot'])
+    context['thirty_days_hot'] = Articles.get_thirty_days_hot()
+
     context['category'] = cates
     return render(request, 'blog/articles.html', context)
 

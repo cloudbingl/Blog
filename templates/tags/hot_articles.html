@@ -1,0 +1,35 @@
+<div class="">
+    <div>
+        <h4>7天热门文章</h4>
+
+    </div>
+    {% if seven_days_hot %}
+
+        {% for data in seven_days_hot %}
+            <p>
+                <a target="_blank"
+                   href="{% url 'blog:article' data.id %}">{{ data.title }} </a>({{ data.get_read_num }})
+            </p>
+        {% endfor %}
+    {% else %}
+        没有热门文章
+    {% endif %}
+</div>
+
+<div class="">
+    <div>
+        <h4>30天热门文章</h4>
+    </div>
+    {% if seven_days_hot %}
+
+
+        {% for data in seven_days_hot %}
+            <p>
+                <a target="_blank"
+                   href="{% url 'blog:article' data.id %}">{{ data.title }} </a>({{ data.get_read_num }})
+            </p>
+        {% endfor %}
+    {% else %}
+        没有热门文章
+    {% endif %}
+</div>
