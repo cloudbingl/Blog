@@ -25,6 +25,8 @@ def articles(request):
         articles = Articles.objects.filter(pub_status=True)\
                                    .order_by('-pub_date')
     context['articles'] = articles
+    context['seven_days_hot'] = Articles.get_seven_days_hot()
+    print(context['seven_days_hot'])
     context['category'] = cates
     return render(request, 'blog/articles.html', context)
 

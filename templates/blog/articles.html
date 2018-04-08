@@ -6,11 +6,27 @@
 
 {% block content %}
     {% include 'tags/cate_filter.html' %}
+    <div>
+        aaa
+        {% for data in seven_days_hot %}
+            <p>
+                {{ data }}
+            </p>
+
+        {% endfor %}
+        aaa
+    </div>
+
+
+
+
+    <hr>
 
     {% for article in articles %}
         <article>
             <h2>
-                <a href="{% url 'blog:article' article.id %}" target="_blank">{{ article.title }}</a>
+                <a href="{% url 'blog:article' article.id %}"
+                   target="_blank">{{ article.title }}</a>
             </h2>
             <ul class="list-inline">
                 <li>
@@ -37,7 +53,7 @@
                     ({{ article.get_read_num }})
                 </li>
                 <li>
-                    <a href="{% url 'blog:articles'%}?cate={{ article.cate.id }}">{{ article.cate }}</a>
+                    <a href="{% url 'blog:articles' %}?cate={{ article.cate.id }}">{{ article.cate }}</a>
                 </li>
 
             </ul>

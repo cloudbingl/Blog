@@ -1,8 +1,11 @@
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.contrib.auth.models import User
 
 from ckeditor_uploader.fields import RichTextUploadingField
-from readstatistics.views import ReadNumMethod
+
+from readstatistics.models import ReadDetail
+from readstatistics.utils import ReadMethod
 
 
 class Category(models.Model):
@@ -17,7 +20,7 @@ class Category(models.Model):
         verbose_name_plural = verbose_name
 
 
-class Articles(models.Model, ReadNumMethod):
+class Articles(models.Model, ReadMethod):
     """文章模型"""
     title = models.CharField(max_length=128, verbose_name="文章标题")
     detail = RichTextUploadingField(verbose_name="文章内容")
@@ -28,6 +31,10 @@ class Articles(models.Model, ReadNumMethod):
     pub_status = models.BooleanField(default=True, verbose_name="发布?")
     is_delete = models.BooleanField(default=False, verbose_name="删除?")
     cate = models.ForeignKey(Category, on_delete=models.DO_NOTHING, verbose_name="分类")
+
+    # GenericRelation() 不会影响表结构,只会作用于数据查询
+    read_detail = GenericRelation(ReadDetail, related_query_name='articles')
+
 
     def __str__(self):
         return self.title
