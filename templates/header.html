@@ -16,7 +16,7 @@
                     <a href="{% url 'blog:articles' %}">Blog</a>
                 </li>
                 <li role="presentation">
-                    <a href="{% url 'blog:articles' %}">生活</a>
+                    <a href="{% url 'blog:articles' %}" title="暂未开放">生活</a>
                 </li>
                 <li class="dropdown" role="presentation">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -157,7 +157,7 @@
                                             <div class="btn-group"
                                                  role="group">
 
-                                                <a data-toggle="modal"
+                                                <a data-toggle="modal" disabled="true"
                                                    data-target="#registerModal"
                                                    class="btn btn-default my_modal_register">
                                                     注册新账号</a>
@@ -171,7 +171,7 @@
                     </div>
                 </div>
 
-                <div class="modal-footer"><a href="">忘记密码</a></div>
+                <div class="modal-footer"><a href="#">忘记密码</a></div>
             </div>
         </div>
     </div>

@@ -32,3 +32,6 @@ venv.bak/
 .idea/
 db.sqlite3
 *.pyc
+
+# my config
+myconfig.py
