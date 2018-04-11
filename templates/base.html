@@ -9,6 +9,7 @@
         {% endblock titile %}
     </title>
     {% include 'tags/css_cdn.html' %}
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
 </head>
 <body>
 {% include 'header.html' %}
@@ -61,7 +62,10 @@
 <button id="top" style="position:fixed;right:20px;bottom:20px">回到顶部</button>
 
 {% include 'tags/js_cdn.html' %}
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 <script src="{% static 'js/blog.js' %}"></script>
+
 
 {% block script %}
 {% endblock script %}

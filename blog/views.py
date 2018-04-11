@@ -39,6 +39,8 @@ def article_detail(request, pk):
     context = {}
     article = get_object_or_404(Articles, pk=pk)
     context['article'] = article
+    context['comments'] = article.get_comments_data()
+    context['comment_form'] = article.get_comment_form()
     if article.pub_status:
         response = render(request, 'blog/article_detail.html', context)
         article.check_or_set_read_flag(request, response)

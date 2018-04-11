@@ -22,7 +22,7 @@ class ReadNumMethod(object):
         except exceptions.ObjectDoesNotExist:
             return 0
 
-    def _check_read_flag(self, request):
+    def __check_read_flag(self, request):
         """
         检查文章是否已被阅读
         如果已读，返回 False
@@ -49,7 +49,7 @@ class ReadNumMethod(object):
             return True
         return False
 
-    def _set_read_flag(self, response):
+    def __set_read_flag(self, response):
         """设置Cookie标记"""
         response.set_cookie(self.flag, 'have_read')
 
@@ -62,8 +62,8 @@ class ReadNumMethod(object):
         :param response: 需要返回的响应对象
         :return:
         """
-        if self._check_read_flag(request):
-            self._set_read_flag(response)
+        if self.__check_read_flag(request):
+            self.__set_read_flag(response)
         else:
             return
 
@@ -75,7 +75,7 @@ class ReadStatisticsMethod(object):
     def get_seven_days_hot(cls):
         """获取7天内的热门文章数据"""
         seven_days = cls.today - datetime.timedelta(days=7)
-        return cls._fetch_date(seven_days)
+        return cls.__fetch_date(seven_days)
 
     @classmethod
     def get_thirty_days_hot(cls):
@@ -83,13 +83,28 @@ class ReadStatisticsMethod(object):
         获取30天内的热门文章数据
         """
         thirty_days = cls.today - datetime.timedelta(days=7)
-        return cls._fetch_date(thirty_days)
+        return cls.__fetch_date(thirty_days)
 
     @classmethod
-    def _fetch_date(cls, some_days):
+    def get_some_days_hot(cls, some_day):
+        """获取某些天内的文章数据"""
+        try:
+            some_day = int(some_day)
+        except ValueError:
+            print("日期必须为int类型")
+        some_days = cls.today - datetime.timedelta(days=some_day)
+        return cls.__fetch_date(some_days)
+
+
+    @classmethod
+    def __fetch_date(cls, some_days):
         """
         根据日期，获取对应天数的文章数据，并按阅读数量倒序排列。
         """
+        # read_detail 字段是在 cls模型中加入的 Reverse generic relations 字段
+        # 该模型可以使用  cls.read_detail.all() 获取 ReadDetail模型数据
+        # 在跨表查询中使用 read_detail__date 查到的就是对应 ReadDetail中的 date字段
+        # 对应的 read_detail__date_read_num 实际就是查询的 ReadDetail中的 date_read_num 字段
         hot_data = cls.objects.filter(
             Q(read_detail__date__lt=cls.today) & \
             Q(read_detail__date__gte=some_days)) \
@@ -98,5 +113,5 @@ class ReadStatisticsMethod(object):
         return hot_data
 
 
-class ReadMethod(ReadNumMethod, ReadStatisticsMethod):
+class ReadMethodMixin(ReadNumMethod, ReadStatisticsMethod):
     pass

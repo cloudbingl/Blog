@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'blog.apps.BlogConfig',
     'readstatistics.apps.ReadstatisticsConfig',
+    'comment.apps.CommentConfig',
 ]
 
 MIDDLEWARE = [
@@ -77,10 +78,10 @@ WSGI_APPLICATION = 'MyBlog.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    'sqlite3': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
+    # 'sqlite3': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # },
     # 配置MySql数据库
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -141,39 +142,53 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_URL = '/admin/login'
 
 # Caches
-CACHES = {
-    ## Redis Caches
-    ## pip install django-redis-cache
-    # 'Redis': {
-    #     'BACKEND': 'redis_cache.cache.RedisCache',
-    #     'LOCATION': '',
-    #     'TIMEOUT': '',
-    # },
+# CACHES = {
+## Redis Caches
+## pip install django-redis-cache
+# 'Redis': {
+#     'BACKEND': 'redis_cache.cache.RedisCache',
+#     'LOCATION': '',
+#     'TIMEOUT': '',
+# },
 
-    # 文件缓存
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+# 文件缓存
+# 'default': {
+#     'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
 
-        # Linux System
-        # 'LOCATION': '/var/tmp/django_cache',
+# Linux System
+# 'LOCATION': '/var/tmp/django_cache',
 
-        # Windows System
-        'LOCATION': 'os.path.join(BASE_DIR, "cache")',
-        # 'LOCATION': 'd:/django/cache',
-    }
-}
+# Windows System
+# 'LOCATION': 'os.path.join(BASE_DIR, "cache")',
+# 'LOCATION': 'd:/django/cache',
+# }
+# }
 
 # CKEditor
 CKEDITOR_UPLOAD_PATH = 'upload'
 CKEDITOR_ALLOW_NONIMAGE_FILES = False
 
 CKEDITOR_CONFIGS = {
+    'ck_comment': {
+        'tabSpaces': 4,
+        'height': 100,
+        'width': '100%',
+        'toolbar_CommentConfig': [
+            {'name': 'styles',
+             'items': ['Styles', 'Format', 'Font', 'FontSize']},
+            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
+            {'name': 'insert', 'items': ['Smiley','SpecialChar']},
+        ],
+
+        'toolbar': 'CommentConfig',
+    },
+
     'default': {
         'skin': 'moono',
         'toolbar_Basic': [
             ['Source', '-', 'Bold', 'Italic']
         ],
-        'toolbar_YourCustomToolbarConfig': [
+        'toolbar_MyCustomToolbarConfig': [
 
             {'name': 'clipboard',
              'items': ['PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
@@ -211,7 +226,7 @@ CKEDITOR_CONFIGS = {
             #   'Maximize',
             # ]},
         ],
-        'toolbar': 'YourCustomToolbarConfig',
+        'toolbar': 'MyCustomToolbarConfig',
         # put selected toolbar config here
         # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
         'height': 500,
