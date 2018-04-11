@@ -1,10 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {% include 'tags/css_cdn.html' %}
 </head>
 <body>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a href="{% url 'blog:index' %}">首页</a>
+        </div>
 
+        <div class="panel-body">
+            <form action="{{ request.get_full_path }}" method="POST" role="form">
+                {% csrf_token %}
+
+
+                <div class="form-group">
+                    <label for="id_username">
+                        用户名
+                    </label>
+                    <div>
+                        {{ login_form.username }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_password">
+                        密码
+                    </label>
+                    <div>
+                        {{ login_form.password }}
+                    </div>
+                </div>
+                
+                <div class="text-danger">
+                    {{ login_form.non_field_errors.as_text }}
+                </div>
+
+                <div class="form-group">
+                    <div>
+                        <button class="btn btn-primary" type="submit">登录</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-footer">
+            <a href="#">忘记密码?</a>
+        </div>
+    </div>
+</div>
 </body>
 </html>

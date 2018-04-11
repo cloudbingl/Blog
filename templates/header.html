@@ -72,8 +72,11 @@
                     </li>
                 {% else %}
                     <li>
-                        <a href="/admin">
+                        <a href="{% url 'user:login' %}?next={{ request.get_full_path }}">
                             登录
+                        </a>
+                        <a href="/admin">
+                            admin
                         </a>
                     </li>
 {#                    <li><a href="#">注册</a></li>#}

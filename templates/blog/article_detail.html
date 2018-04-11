@@ -19,31 +19,12 @@
 
     <hr>
 
-    {% if request.user.is_authenticated %}
-        <form action="{% url 'comment:add_comment' %}" method="POST"
-              id="comment_form" role="form">
-            {% csrf_token %}
-            <input type="hidden" name="model" value="articles">
-            <input type="hidden" name="model_id" value="{{ article.id }}">
-            <div class="form-group">
-                {{ comment_form.detail }}
-            </div>
-
-            <span id="comment_error_text">{{ error_message }}</span>
-            <div class="form-group">
-                <button class="btn btn-primary" id="comment_submit"
-                        type="submit">
-                    发表评论
-                </button>
-            </div>
-        </form>
-
-    {% else %}
-        登录后才能进行评论
-    {% endif %}
+    {% include 'comment/comment_tag.html' %}
 
     <hr>
+    <div id="cmt_form">
 
+    </div>
     <h3>评论：</h3>
     <div>
         {% if comments %}
@@ -67,4 +48,7 @@
 
 {% endblock content %}
 
+
+{% block script %}
+{% endblock script %}
 

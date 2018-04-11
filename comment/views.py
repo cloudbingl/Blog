@@ -2,7 +2,9 @@ from django.contrib import messages
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import JsonResponse
+from django.http import HttpResponseRedirect
 from django.contrib.contenttypes.models import ContentType
+from django.shortcuts import reverse
 
 from .models import Comments
 from .forms import CommentForms
@@ -16,6 +18,7 @@ def add_comment(request):
         cnt_type = request.POST.get('model')
         obj_id = request.POST.get("model_id")
         ct = ContentType.objects.get(model=cnt_type)
+        print(referer)
         if form.is_valid():
             cmt_obj = Comments()
             cmt_obj.cmt_detail = form.cleaned_data['detail']
@@ -23,7 +26,11 @@ def add_comment(request):
             cmt_obj.object_id = int(obj_id)
             cmt_obj.cmt_user = request.user
             cmt_obj.save()
-            messages.success(request, '评论成功')
         else:
-            messages.warning(request, '评论失败')
+            # form.add_error(form,"错误信息")
+            # form.add_error(field:'字段',"错误信息")
+            print('aaa')
         return redirect(referer)
+    else:
+        context['comment_form'] = CommentForms()
+    return render(request, 'comment/comment_tag.html', context)
