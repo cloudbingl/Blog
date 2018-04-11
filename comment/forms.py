@@ -1,13 +1,32 @@
 from django import forms
+from django.contrib.contenttypes.models import ContentType
 from ckeditor.widgets import CKEditorWidget
 
 
 class CommentForms(forms.Form):
-    detail = forms.CharField(required=True,
-        widget=CKEditorWidget(
-            config_name='ck_comment'),
-    error_messages={'required': '评论内容不能为空'})
+    content_type = forms.CharField(widget=forms.HiddenInput)
+    object_id = forms.CharField(widget=forms.HiddenInput)
+    detail = forms.CharField(widget=CKEditorWidget(config_name='ck_comment'))
 
-    def clean_detail(self):
-        if not self.cleaned_data['detail']:
-            raise forms.ValidationError('评论内容不能为空')
+    def __init__(self, *args, **kwargs):
+        if 'user' in kwargs:
+            self.user = kwargs.pop('user')
+        super(CommentForms, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        if self.user.is_authenticated:
+            self.cleaned_data['user'] = self.user
+        else:
+            raise forms.ValidationError('用户尚未登录')
+
+        ct = self.cleaned_data['content_type']
+        obj_id = self.cleaned_data['object_id']
+
+        try:
+            model_class = ContentType.objects.get(model=ct).model_class()
+            model_obj = model_class.objects.get(pk=obj_id)
+            self.cleaned_data['content_object'] = model_obj
+        except:
+            raise forms.ValidationError('评论的对象不存在')
+
+        return self.cleaned_data

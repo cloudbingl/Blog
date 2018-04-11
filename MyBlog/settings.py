@@ -171,15 +171,18 @@ CKEDITOR_ALLOW_NONIMAGE_FILES = False
 CKEDITOR_CONFIGS = {
     'ck_comment': {
         'tabSpaces': 4,
-        'height': 100,
-        'width': '100%',
+        'height': '100',
+        'width': 'auto',
+        'removePlugins': 'elementspath',
+        'resize_enabled': False,
         'toolbar_CommentConfig': [
-            {'name': 'styles',
-             'items': ['Styles', 'Format', 'Font', 'FontSize']},
-            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
-            {'name': 'insert', 'items': ['Smiley','SpecialChar']},
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript',
+             'Superscript'],
+            ["TextColor", "BGColor", 'RemoveFormat'],
+            ['NumberedList', 'BulletedList'],
+            ['Link', 'Unlink'],
+            ["Smiley", "SpecialChar", 'Blockquote'],
         ],
-
         'toolbar': 'CommentConfig',
     },
 

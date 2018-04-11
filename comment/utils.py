@@ -14,15 +14,26 @@ class CommentNumMethod(object):
 
 
 class CommentMethod(object):
-    def get_comments_data(self):
+    def get_comments_data(self, reverse=False):
         ct = ContentType.objects.get_for_model(self)
         comments = Comments.objects.filter(content_type=ct, object_id=self.pk)
+        if not reverse:
+            comments = comments.order_by('-cmt_date')
         return comments
 
-    @staticmethod
-    def get_comment_form():
-        form = CommentForms()
+    def get_comment_form(self):
+        kwargs = self.__init_comment_form()
+        form = CommentForms(initial=kwargs)
+
         return form
+
+    def __init_comment_form(self):
+        ct = ContentType.objects.get_for_model(self)
+        kwargs = {
+            'content_type': ct.model,
+            'object_id': self.pk
+        }
+        return kwargs
 
 class CommentMethodMixin(CommentMethod, CommentNumMethod):
     pass

@@ -1,3 +1,7 @@
 textarea {
-    resize:none;
+    resize: none;
+}
+
+div.django-ckeditor-widget {
+    width: 100%;
 }

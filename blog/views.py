@@ -50,3 +50,7 @@ def article_detail(request, pk):
         return render(request, 'blog/article_detail.html', context)
     messages.warning(request, '文章好像飞走了')
     return HttpResponseRedirect(reverse('blog:index'))
+
+
+def search(request):
+    pass

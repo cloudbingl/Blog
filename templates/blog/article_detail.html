@@ -25,7 +25,7 @@
     <div id="cmt_form">
 
     </div>
-    <h3>评论：</h3>
+    <h3>最新评论：</h3>
     <div>
         {% if comments %}
             {% for comment in comments %}
@@ -50,5 +50,39 @@
 
 
 {% block script %}
+    <script>
+        $("#comment_form").submit(function () {
+            let error_text = $("#comment_error_text");
+            error_text.text("");
+            const ek_content = CKEDITOR.instances['id_detail'].document.getBody().getText().trim();
+            if (ek_content === "") {
+                error_text.text("评论内容不能为空");
+                return false;
+            }
+
+            CKEDITOR.instances['id_detail'].updateElement();
+
+            $.ajax({
+                url: "{% url 'comment:add_comment' %}",
+                type: "POST",
+                data: $(this).serialize(),
+                cache: false,
+                success: function (data) {
+                    console.log(data);
+                    if (data["status"] === "success") {
+                        console.log("OK了");
+                        location.reload();
+                    } else {
+                        error_text.text(data["error_message"]);
+                    }
+                },
+                error: function (xhr) {
+                    console.log("xhr");
+                }
+
+            });
+            return false;
+        });
+    </script>
 {% endblock script %}
 

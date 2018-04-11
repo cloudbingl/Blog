@@ -31,9 +31,10 @@
                 </li>
             </ul>
 
-            <form action="" role="search" class="navbar-form navbar-left">
+            <form action="{% url 'blog:search' %}" role="search" class="navbar-form navbar-left">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="请输入内容">
+                    {% csrf_token %}
+                    <input type="text" class="form-control" name="s" placeholder="请输入关键字">
                 </div>
                 <button type="submit" class="btn btn-default">搜索</button>
             </form>
