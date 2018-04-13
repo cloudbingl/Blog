@@ -16,10 +16,11 @@ class CommentNumMethod(object):
 class CommentMethod(object):
     def get_comments_data(self, reverse=False):
         ct = ContentType.objects.get_for_model(self)
-        comments = Comments.objects.filter(content_type=ct, object_id=self.pk)
+        comments = Comments.objects.filter(content_type=ct, object_id=self.pk, reply_parent__isnull=True)
         if not reverse:
             comments = comments.order_by('-cmt_date')
         return comments
+
 
     def get_comment_form(self):
         kwargs = self.__init_comment_form()

@@ -5,3 +5,41 @@ textarea {
 div.django-ckeditor-widget {
     width: 100%;
 }
+
+div.comment {
+
+}
+
+div.comment_user {
+    color: #6d757a;
+    font-weight: 800;
+    margin-top: 5px;
+}
+
+div.comment_detail {
+    margin: 1em 1em;
+}
+
+div.comment_date span {
+    color: #ccc;
+    margin-right: 1em;
+}
+
+div.reply {
+    margin-left: 3em;
+}
+
+span.reply a {
+    color: #ccc;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+span.reply a:hover {
+    color: #00a1d6;
+    background: #dce0e6;
+}
+
+div.reply_detail {
+    margin: 3px 5px;
+}

@@ -5,47 +5,66 @@
 {% endblock titile %}
 
 {% block content %}
+    {# 文章 #}
+    <h3>{{ status }} {{ article.title }}</h3>
     <div>
-        标题：{{ status }}-{{ article.title }}
+        <span>{{ article.author }}</span>
+        <span>{{ article.pub_date| date:'Y-m-d H:i:s' }}</span>
+        <span>阅读({{ article.get_read_num }})</span>
+        <span>评论(#)</span>
+        <span><a href="">{{ article.cate }}</a></span>
     </div>
-
-    <div>
-        作者：{{ article.author }}
-    </div>
+    <hr>
 
     <div>
         {{ article.detail|safe }}
     </div>
 
     <hr>
-
+    {# 评论框 #}
     {% include 'comment/comment_tag.html' %}
-
+    {# 评论框结束 #}
     <hr>
-    <div id="cmt_form">
 
-    </div>
-    <h3>最新评论：</h3>
-    <div>
-        {% if comments %}
-            {% for comment in comments %}
-                <div>
-                    <b>{{ comment.cmt_user }}</b>
+    {# 评论内容 #}
+    <h3>全部评论：</h3>
+    <hr>
+    <div id="comments">
+        {% for comment in comments %}
+            <div class="comment">
+                <div class="comment_user">
+                    {{ comment.cmt_user }}
                 </div>
-                <div>
+                <div class="comment_detail">
                     {{ comment.cmt_detail|safe }}
                 </div>
-                <div>
-                    {{ comment.cmt_date| date:'Y-m-d H:i:s' }}
+
+                <div class="comment_date">
+                    <span>#{{ forloop.revcounter }}</span>
+                    <span>{{ comment.cmt_date| date:'Y-m-d H:i:s' }}</span>
+                    <span class="reply"><a class="reply-{{ comment.id }}">回复</a></span>
                 </div>
-                <hr>
-            {% endfor %}
 
-        {% else %}
-            暂无评论
-        {% endif %}
+
+                <div class="reply">
+                    {# 对评论的回复 #}
+                    {% for reply  in comment.rpy_root.all %}
+                        <div class="comment_user">
+                            {{ reply.cmt_user }}
+                        </div>
+                        <div class="reply_detail">
+                            {{ reply.cmt_detail }}
+                        </div>
+                        <div class="comment_date">
+                            <span>{{ reply.cmt_date }}</span>
+                            <span class="reply"><a class="">回复</a></span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <hr>
+        {% endfor %}
     </div>
-
 {% endblock content %}
 
 

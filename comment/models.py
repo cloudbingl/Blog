@@ -12,16 +12,16 @@ class Comments(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')
 
     cmt_detail = models.TextField(verbose_name='评论内容')
-    cmt_user = models.ForeignKey(User, related_name='user_cmt', on_delete=models.DO_NOTHING, verbose_name='评论用户')
+    cmt_user = models.ForeignKey(User, related_name='cmt_user', on_delete=models.DO_NOTHING, verbose_name='评论用户')
     cmt_date = models.DateTimeField(auto_now_add=True, verbose_name='评论时间')
     cmt_is_delete = models.BooleanField(default=False, verbose_name='删除?')
 
-    # 评论父节点：记录"一组评论"回复的是 哪一条评论内容
-    # 评论起点：记录"一组评论"，起点id
+    # 评论起点：直接对文章的评论节点
+    # 评论父节点：记录 回复 哪一条 评论的节点
     # 回复用户：回复谁的评论
-    reply_parent = models.ForeignKey('self', null=True, on_delete=models.DO_NOTHING, verbose_name='评论父节点')
-    reply_root = models.ForeignKey('self', null=True, on_delete=models.DO_NOTHING, verbose_name='评论起点')
-    reply_user = models.ForeignKey(User, null=True, related_name='user_replies', on_delete=models.DO_NOTHING, verbose_name='回复用户')
+    reply_root = models.ForeignKey('self', null=True, blank=True , related_name='rpy_root', on_delete=models.DO_NOTHING, verbose_name='评论根节点')
+    reply_parent = models.ForeignKey('self', null=True, blank=True, related_name='rpy_parent', on_delete=models.DO_NOTHING, verbose_name='评论父节点')
+    reply_user = models.ForeignKey(User, null=True, related_name='rpy_user', on_delete=models.DO_NOTHING, verbose_name='回复用户')
 
     def __str__(self):
         return self.cmt_detail
