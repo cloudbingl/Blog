@@ -232,8 +232,9 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'MyCustomToolbarConfig',
         # put selected toolbar config here
         # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
-        'height': 500,
+        'height': '800',
         'width': '100%',
+        'resize_enabled': False,
         # 'filebrowserWindowHeight': 725,
         # 'filebrowserWindowWidth': 940,
         # 'toolbarCanCollapse': True,
