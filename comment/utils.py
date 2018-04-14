@@ -32,7 +32,8 @@ class CommentMethod(object):
         ct = ContentType.objects.get_for_model(self)
         kwargs = {
             'content_type': ct.model,
-            'object_id': self.pk
+            'object_id': self.pk,
+            'reply_comment':0,
         }
         return kwargs
 

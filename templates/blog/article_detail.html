@@ -6,7 +6,7 @@
 
 {% block content %}
     {# 文章 #}
-    <h3>{{ status }} {{ article.title }}</h3>
+    <h3>{{ article.title }}</h3>
     <div>
         <span>{{ article.author }}</span>
         <span>{{ article.pub_date| date:'Y-m-d H:i:s' }}</span>
@@ -21,48 +21,74 @@
     </div>
 
     <hr>
-    {# 评论框 #}
-    {% include 'comment/comment_tag.html' %}
-    {# 评论框结束 #}
-    <hr>
 
     {# 评论内容 #}
-    <h3>全部评论：</h3>
-    <hr>
     <div id="comments">
+        <h3>全部评论：</h3>
+        <hr>
+        <div>
+            <span>欢迎评论，{{ request.user.username }} ~</span>
+        </div>
+
+        <div id="comments_form">
+            {# 评论框 #}
+
+            <div id="reply_to">
+                <span>原评论：</span>
+                <div id="reply_to_detail"></div>
+
+            </div>
+
+            {% include 'comment/comment_tag.html' %}
+            {# 评论框结束 #}
+        </div>
+        <hr>
+
         {% for comment in comments %}
             <div class="comment">
-                <div class="comment_user">
-                    {{ comment.cmt_user }}
+                <div id="comment_{{ comment.id }}">
+                    <div class="comment_user">
+                        {{ comment.cmt_user }}
+                    </div>
+                    <div class="comment_detail">
+                        {{ comment.cmt_detail|safe }}
+                    </div>
                 </div>
-                <div class="comment_detail">
-                    {{ comment.cmt_detail|safe }}
-                </div>
-
                 <div class="comment_date">
                     <span>#{{ forloop.revcounter }}</span>
                     <span>{{ comment.cmt_date| date:'Y-m-d H:i:s' }}</span>
-                    <span class="reply"><a class="reply-{{ comment.id }}">回复</a></span>
+                    <span class="reply">
+                        <a href="javascript:reply({{ comment.pk }});">回复</a>
+                    </span>
                 </div>
 
 
                 <div class="reply">
                     {# 对评论的回复 #}
                     {% for reply  in comment.rpy_root.all %}
-                        <div class="comment_user">
-                            {{ reply.cmt_user }}
-                        </div>
-                        <div class="reply_detail">
-                            {{ reply.cmt_detail }}
+                        <div id="comment_{{ reply.pk }}">
+                            <div class="comment_user">
+                                {% if reply.reply_parent.id == comment.id %}
+                                    {{ reply.cmt_user }}
+                                {% else %}
+                                    {{ reply.cmt_user }} 回复: @
+                                    {{ reply.reply_user }}
+                                {% endif %}
+
+                            </div>
+                            <div class="reply_detail">
+                                {{ reply.cmt_detail|safe }}
+                            </div>
                         </div>
                         <div class="comment_date">
                             <span>{{ reply.cmt_date }}</span>
-                            <span class="reply"><a class="">回复</a></span>
+                            <span class="reply">
+                                <a href="javascript:reply({{ reply.pk }});">回复</a>
+                            </span>
                         </div>
                     {% endfor %}
                 </div>
             </div>
-            <hr>
         {% endfor %}
     </div>
 {% endblock content %}
@@ -70,15 +96,36 @@
 
 {% block script %}
     <script>
+        function reply(comment_id) {
+            // 清除之前的数据
+            $('#reply_to_detail').empty();
+            $('#reply_to').hide();
+            CKEDITOR.instances['id_detail'].setData('');
+
+            // 跳转至评论框
+            $('html').animate({scrollTo: $('#comments').offset.top - 60}, 400, function () {
+                // 富文本框获得焦点
+                CKEDITOR.instances['id_detail'].focus();
+                // 添加原评论内容
+                $("#id_reply_comment").val(comment_id);
+                let html = $('#comment_' + comment_id).html();
+                console.log(html);
+                $('#reply_to_detail').html(html);
+                $('#reply_to').show();
+            });
+        }
+
         $("#comment_form").submit(function () {
             let error_text = $("#comment_error_text");
+            // 清空原有的数据
             error_text.text("");
+            // 获取富文编辑器的数据(还未添加至Textarea)
             const ek_content = CKEDITOR.instances['id_detail'].document.getBody().getText().trim();
             if (ek_content === "") {
                 error_text.text("评论内容不能为空");
                 return false;
             }
-
+            // 将富文本编辑器的数据更新至Textarea
             CKEDITOR.instances['id_detail'].updateElement();
 
             $.ajax({
@@ -89,16 +136,18 @@
                 success: function (data) {
                     console.log(data);
                     if (data["status"] === "success") {
-                        console.log("OK了");
-                        location.reload();
+                        // 提交评论验证通过保存后刷新页面
+                        window.location.reload();
                     } else {
+                        // 提交评论验证不通过显示错误信息
                         error_text.text(data["error_message"]);
                     }
                 },
                 error: function (xhr) {
-                    console.log("xhr");
+                    // 提交发生异常
+                    console.log(xhr);
+                    error_text.text("网络发生了异常！");
                 }
-
             });
             return false;
         });

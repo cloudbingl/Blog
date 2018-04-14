@@ -2,12 +2,18 @@ textarea {
     resize: none;
 }
 
+a {
+
+}
+
 div.django-ckeditor-widget {
     width: 100%;
 }
 
-div.comment {
 
+
+div.comment {
+    border-bottom: 1px dashed #CCCCCC;
 }
 
 div.comment_user {
@@ -33,13 +39,27 @@ span.reply a {
     color: #ccc;
     padding: 5px;
     border-radius: 4px;
+
 }
 
 span.reply a:hover {
     color: #00a1d6;
     background: #dce0e6;
+    text-decoration: none
 }
 
 div.reply_detail {
     margin: 3px 5px;
+}
+
+div#reply_to {
+    margin: 1em 1em;
+    color: #1392e9;
+    display: none;
+}
+
+div#reply_to_detail {
+    border:1px #1392e9 dashed;
+    border-radius: 4px;
+    padding-left: 1em;
 }

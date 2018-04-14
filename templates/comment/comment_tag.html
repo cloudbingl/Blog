@@ -5,11 +5,9 @@
         <div class="form-group">
             {% for cmtform in comment_form %}
                 {{ cmtform }}
-
             {% endfor %}
             <span class="text-danger"
                   id="comment_error_text">{{ cmtform.errors }}</span>
-
         </div>
         <div class="form-group">
             <button class="btn btn-primary" id="comment_submit"
