@@ -8,7 +8,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 class ReadNum(models.Model):
     """阅读计数模型"""
     read_num = models.IntegerField(default=0, verbose_name='阅读量')
-    content_type = models.ForeignKey(ContentType, on_delete=models.DO_NOTHING,
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE,
                                      verbose_name='对象模型')
     object_id = models.PositiveIntegerField(verbose_name="对象id")
     content_object = GenericForeignKey('content_type', 'object_id')
@@ -22,7 +22,7 @@ class ReadNum(models.Model):
 class ReadDetail(models.Model):
     date_read_num = models.IntegerField(default=0, verbose_name='今天阅读量')
     date = models.DateTimeField(default=timezone.now)
-    content_type = models.ForeignKey(ContentType, on_delete=models.DO_NOTHING)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField(verbose_name="对象id")
     content_object = GenericForeignKey('content_type', 'object_id')
 

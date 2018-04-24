@@ -25,13 +25,13 @@ class Articles(models.Model, ReadMethodMixin, CommentMethodMixin):
     """文章模型"""
     title = models.CharField(max_length=128, verbose_name="文章标题")
     detail = RichTextUploadingField(verbose_name="文章内容")
-    author = models.ForeignKey(User, on_delete=models.DO_NOTHING,
+    author = models.ForeignKey(User, on_delete=models.CASCADE,
                                verbose_name="作者")
     pub_date = models.DateTimeField(auto_now_add=True, verbose_name="发布时间")
     modify_date = models.DateTimeField(auto_now=True, verbose_name="最后修改时间")
     pub_status = models.BooleanField(default=True, verbose_name="发布?")
     is_delete = models.BooleanField(default=False, verbose_name="删除?")
-    cate = models.ForeignKey(Category, on_delete=models.DO_NOTHING,
+    cate = models.ForeignKey(Category, on_delete=models.CASCADE,
                              verbose_name="分类")
 
     # GenericRelation() 不会影响表结构,只会作用于数据查询

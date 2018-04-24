@@ -3,6 +3,7 @@ from django.shortcuts import reverse
 from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from .models import Articles
 from .models import Category
@@ -12,17 +13,18 @@ def index(request):
     """主页"""
     return render(request, 'index.html')
 
-
 def articles(request):
     """文章列表"""
     context = {}
     cates = Category.objects.all()
     cate = request.GET.get('cate', '')
     if cate.isdecimal() and int(cate) > 0:
+        # 查看分类下的文章
         articles = Articles.objects.filter(pub_status=True, cate=cate) \
             .order_by('-pub_date')
         context['current_cate'] = int(cate)
     else:
+        # 查看全部的文章
         articles = Articles.objects.filter(pub_status=True) \
             .order_by('-pub_date')
         context['current_cate'] = 0
@@ -45,11 +47,12 @@ def article_detail(request, pk):
         response = render(request, 'blog/article_detail.html', context)
         article.check_or_set_read_flag(request, response)
         return response
-    if article.author == request.user:
-        context['status'] = '[草稿]'
-        return render(request, 'blog/article_detail.html', context)
-    messages.warning(request, '文章好像飞走了')
-    return HttpResponseRedirect(reverse('blog:index'))
+    else:
+        if article.author == request.user:
+            context['status'] = '[草稿]'
+            return render(request, 'blog/article_detail.html', context)
+        messages.warning(request, '文章好像飞走了')
+        return HttpResponseRedirect(reverse('blog:index'))
 
 
 def search(request):

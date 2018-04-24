@@ -7,6 +7,9 @@ from .forms import CommentForms
 def add_comment(request):
     context = {}
     form = CommentForms(request.POST, user=request.user)
+    if request.is_ajax():
+        print("Ajax请求")
+
     if form.is_valid():
         cmt_obj = Comments()
         cmt_obj.cmt_detail = form.cleaned_data['detail']

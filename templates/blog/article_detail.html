@@ -32,13 +32,12 @@
 
         <div id="comments_form">
             {# 评论框 #}
-
+            <!-- 原评论显示 -->
             <div id="reply_to">
                 <span>原评论：</span>
                 <div id="reply_to_detail"></div>
-
             </div>
-
+            <!-- 富文本框显示 -->
             {% include 'comment/comment_tag.html' %}
             {# 评论框结束 #}
         </div>
@@ -46,6 +45,7 @@
 
         {% for comment in comments %}
             <div class="comment">
+                {# 评论 #}
                 <div id="comment_{{ comment.id }}">
                     <div class="comment_user">
                         {{ comment.cmt_user }}
@@ -62,22 +62,21 @@
                     </span>
                 </div>
 
-
+                {# 对评论的回复 #}
                 <div class="reply">
-                    {# 对评论的回复 #}
                     {% for reply  in comment.rpy_root.all %}
                         <div id="comment_{{ reply.pk }}">
                             <div class="comment_user">
                                 {% if reply.reply_parent.id == comment.id %}
-                                    {{ reply.cmt_user }}
+                                    <span>{{ reply.cmt_user }}</span>
                                 {% else %}
-                                    {{ reply.cmt_user }} 回复: @
+                                    <span>{{ reply.cmt_user }} 回复: @
                                     {{ reply.reply_user }}
+                                    </span>
                                 {% endif %}
-
                             </div>
                             <div class="reply_detail">
-                                {{ reply.cmt_detail|safe }}
+                                    {{ reply.cmt_detail|safe }}
                             </div>
                         </div>
                         <div class="comment_date">
@@ -115,6 +114,8 @@
             });
         }
 
+
+        // 此方法必须写在对应的模板中，方便获取表单的 csrf_token
         $("#comment_form").submit(function () {
             let error_text = $("#comment_error_text");
             // 清空原有的数据

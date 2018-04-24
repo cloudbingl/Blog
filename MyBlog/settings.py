@@ -88,7 +88,7 @@ DATABASES = {
         'NAME': 'blog',
         'USER': 'root',
         'PASSWORD': 'adminroot',
-        'HOST': '127.0.0.1',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
@@ -171,7 +171,7 @@ CKEDITOR_ALLOW_NONIMAGE_FILES = False
 CKEDITOR_CONFIGS = {
     'ck_comment': {
         'tabSpaces': 4,
-        'height': '100',
+        'height': 100,
         'width': 'auto',
         'removePlugins': 'elementspath',
         'resize_enabled': False,
@@ -188,6 +188,9 @@ CKEDITOR_CONFIGS = {
 
     'default': {
         'skin': 'moono',
+        'height': 800,
+        'width': '100%',
+        'resize_enabled': False,
         'toolbar_Basic': [
             ['Source', '-', 'Bold', 'Italic']
         ],
@@ -232,9 +235,6 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'MyCustomToolbarConfig',
         # put selected toolbar config here
         # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
-        'height': '800',
-        'width': '100%',
-        'resize_enabled': False,
         # 'filebrowserWindowHeight': 725,
         # 'filebrowserWindowWidth': 940,
         # 'toolbarCanCollapse': True,
