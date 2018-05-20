@@ -18,5 +18,16 @@
     </form>
 
 {% else %}
-    <a href="{% url 'user:login' %}">登录</a>后才能进行评论
+    <span class="visible-xs">
+    <a type="button" class="btn btn-default"
+       href="{% url 'user:login' %}?next_url={{ request.get_full_path }}">登录
+    </a>
+
+    </span>
+    <span class="hidden-xs">
+        <a data-toggle="modal" class="my_modal_login"
+           type="button" data-target="#loginModal">
+                            登录</a>后才能进行评论
+    </span>
+
 {% endif %}

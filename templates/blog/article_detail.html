@@ -1,4 +1,5 @@
-{% extends 'base.html' %}
+{% extends 'base_no.html' %}
+{% load comment_tags %}
 
 {% block titile %}
     {{ article.title }}
@@ -6,29 +7,46 @@
 
 {% block content %}
     {# 文章 #}
-    <h3>{{ article.title }}</h3>
-    <div>
-        <span>{{ article.author }}</span>
-        <span>{{ article.pub_date| date:'Y-m-d H:i:s' }}</span>
-        <span>阅读({{ article.get_read_num }})</span>
-        <span>评论(#)</span>
-        <span><a href="">{{ article.cate }}</a></span>
-    </div>
-    <hr>
+    <div class="article-left">
+        <div class="article-detail">
+            <div class="article-header">
+                <div class="article-title">
+                    <h3>{{ article.title }}</h3>
+                </div>
+                <div class="article-title-list">
+                    <span>发布时间：{{ article.pub_date| date:'Y年m月d日 H:i:s' }}</span>
+                    <span>作者：{{ article.author }}</span>
+                    <div>
+                        <span>标签：<a href="">{{ article.cate }}</a></span>
+                        <span>阅读({{ article.get_read_num }})</span>
+                        <span>评论({% get_comment_count article %})</span>
+                    </div>
 
-    <div>
-        {{ article.detail|safe }}
-    </div>
+                </div>
+            </div>
+            <hr>
+            <article class="">
+                {{ article.detail|safe }}
+            </article>
+        </div>
+        <hr>
+        <div class="article-more">
+            {% include 'favour/favour.html' %}
+        </div>
 
+    </div>
     <hr>
 
     {# 评论内容 #}
     <div id="comments">
-        <h3>全部评论：</h3>
+        <h3>最新评论：</h3>
         <hr>
-        <div>
-            <span>欢迎评论，{{ request.user.username }} ~</span>
-        </div>
+        {% if request.user.is_authenticated %}
+            <div>
+                <span>欢迎评论，{{ request.user.username }} ~</span>
+            </div>
+        {% endif %}
+
 
         <div id="comments_form">
             {# 评论框 #}
@@ -76,7 +94,7 @@
                                 {% endif %}
                             </div>
                             <div class="reply_detail">
-                                    {{ reply.cmt_detail|safe }}
+                                {{ reply.cmt_detail|safe }}
                             </div>
                         </div>
                         <div class="comment_date">
@@ -152,6 +170,55 @@
             });
             return false;
         });
+
+
+        // 点赞功能
+        $("#favour").click(function () {
+            let article_id = $(this).attr("data-id");
+            let content_type = $(this).attr("data-model");
+            console.log(article_id);
+            $.ajax({
+                type: "GET",
+                url: "{% url 'favour:favour' %}",
+                data: {
+                    content_type: content_type,
+                    object_id: article_id
+                },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data['code'] === 401) {
+                        console.log(data['text']);
+                        $('#loginModal').modal("show");
+                    } else if (data['code'] === 200) {
+                        console.log(data['text']);
+                        let fav_obj = $("#favour");
+                        fav_obj.attr({"class":"favour-detail"});
+                        fav_obj.attr("title","赞一个?");
+                        let text_obj = $("#favour :last-child");
+                        let num = parseInt(text_obj.text()) - 1;
+                        console.log(num);
+                        text_obj.text(num);
+                    } else if (data['code'] === 201) {
+                        console.log(data['text']);
+                        let fav_obj = $("#favour");
+                        fav_obj.attr("class","favour-detail-active");
+                        fav_obj.attr("title","取消点赞?");
+                        let text_obj = $("#favour :last-child");
+                        let num = 1 + parseInt(text_obj.text());
+                        console.log(num);
+                        text_obj.text(num);
+
+                    } else {
+                        console.log(data['text'])
+                    }
+                },
+                error: function (xhr) {
+                    console.log("Error:" + xhr);
+                }
+            });
+            {#return false;#}
+        })
     </script>
 {% endblock script %}
 

@@ -109,9 +109,9 @@ class ReadStatisticsMethod(object):
             Q(read_detail__date__lt=cls.today) & \
             Q(read_detail__date__gte=some_days)) \
             .annotate(read_num_sum=Sum('read_detail__date_read_num')) \
-            .order_by('-read_num_sum')
+            .order_by('-read_num_sum')[0:5]
         return hot_data
 
 
 class ReadMethodMixin(ReadNumMethod, ReadStatisticsMethod):
-    pass
+    """阅读统计方法集合"""

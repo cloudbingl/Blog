@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.shortcuts import reverse
 from django.shortcuts import HttpResponseRedirect
@@ -28,11 +29,18 @@ def articles(request):
         articles = Articles.objects.filter(pub_status=True) \
             .order_by('-pub_date')
         context['current_cate'] = 0
-    context['articles'] = articles
+    # context['articles'] = articles
     context['seven_days_hot'] = Articles.get_seven_days_hot()
     context['thirty_days_hot'] = Articles.get_thirty_days_hot()
-
     context['category'] = cates
+
+    # 分页
+    paginator = Paginator(articles, 5)
+    page= request.GET.get('page', 1)
+    data = paginator.get_page(page)
+    context['articles'] = data
+    print(data)
+
     return render(request, 'blog/articles.html', context)
 
 

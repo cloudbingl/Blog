@@ -33,7 +33,7 @@
                         {{ login_form.password }}
                     </div>
                 </div>
-
+                <input type="hidden" name="next_url" value="{{ next_url }}">
                 <div class="text-danger">
                     {{ login_form.non_field_errors.as_text }}
                 </div>

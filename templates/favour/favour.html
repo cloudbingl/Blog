@@ -1,0 +1,17 @@
+{% load favour_tags %}
+
+{% get_favour_status article request.user as active %}
+
+{% if active %}
+    <div id="favour" class="favour-detail-active" data-id="{{ article.id }}"
+         data-model="articles" title="取消点赞?">
+        <span class="glyphicon glyphicon-thumbs-up"></span>
+        <span id="favour-detail-num">{% get_favour_count article %}</span>
+    </div>
+{% else %}
+    <div id="favour" class="favour-detail" data-id="{{ article.id }}"
+         data-model="articles" title="赞一个！">
+        <span class="glyphicon glyphicon-thumbs-up"></span>
+        <span id="favour-detail-num">{% get_favour_count article %}</span>
+    </div>
+{% endif %}

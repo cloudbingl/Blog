@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'readstatistics.apps.ReadstatisticsConfig',
     'comment.apps.CommentConfig',
+    'favour.apps.FavourConfig',
 ]
 
 MIDDLEWARE = [

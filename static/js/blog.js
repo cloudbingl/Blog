@@ -1,9 +1,9 @@
 $(window).on('scroll', function () {
     // 判断显示还是隐藏按钮
     if ($(this).scrollTop() >= $(this).height()) {
-        $('#top').fadeIn('slow');
+        $('#top').fadeIn();
     } else {
-        $('#top').fadeOut('slow');
+        $('#top').fadeOut();
     }
 });
 $("#top").click(function () {
@@ -14,3 +14,6 @@ $("#top").click(function () {
 $("#msg_alert").delay(2000).fadeOut();
 
 
+// 分页
+// let 变量
+// const 常量

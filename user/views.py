@@ -15,12 +15,12 @@ def login(request):
         return redirect('/')
 
     if request.method == 'POST':
-        next = request.GET.get('next')
+        next = request.POST.get('next_url')
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
             user = login_form.cleaned_data['user']
             auth.login(request, user)
-            messages.success(request, '登录成功')
+            # messages.success(request, '登录成功')
             if next:
                return redirect(next)
             return redirect(reverse('blog:index'))
@@ -31,7 +31,10 @@ def login(request):
             context['login_form'] = LoginForm(request.POST)
     else:
         # POST 之外其他请求
+        next = request.GET.get('next_url')
+        print(next)
         context['login_form'] = LoginForm()
+        context['next_url'] = next
     return render(request, 'user/login.html', context)
 
 

@@ -13,12 +13,8 @@
 </head>
 <body>
 {% include 'header.html' %}
-<div class="jumbotron">
-    <div class="container">
-        {% include 'tags/jumbotron.html' %}
-    </div>
-</div>
-<div class="container">
+
+<div class="container" id="base_no">
     <div class="row">
         <div class="col-sm-9">
             <!-- 警告框 -->
@@ -60,11 +56,11 @@
 
 
 {% include 'tags/gototop.html' %}
-
 {% include 'tags/js_cdn.html' %}
 <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
 <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 <script src="{% static 'js/blog.js' %}"></script>
+
 
 {% block script %}
 {% endblock script %}

@@ -7,6 +7,10 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from readstatistics.models import ReadDetail
 from readstatistics.utils import ReadMethodMixin
 from comment.utils import CommentMethodMixin
+from favour.utils import FavourMethodMixin
+
+
+from django.views.generic import CreateView
 
 
 class Category(models.Model):
@@ -21,7 +25,14 @@ class Category(models.Model):
         verbose_name_plural = verbose_name
 
 
-class Articles(models.Model, ReadMethodMixin, CommentMethodMixin):
+class ArticlesExtendMethod(ReadMethodMixin,
+                           CommentMethodMixin,
+                           FavourMethodMixin):
+    """文章扩展方法集合"""
+    pass
+
+
+class Articles(models.Model, ArticlesExtendMethod):
     """文章模型"""
     title = models.CharField(max_length=128, verbose_name="文章标题")
     detail = RichTextUploadingField(verbose_name="文章内容")
